@@ -1,0 +1,62 @@
+name: Refresh and deploy drama journal
+
+on:
+  push:
+  schedule:
+    - cron: '17 22 * * *' # 06:17 Asia/Shanghai; GitHub schedules may be delayed.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore last successful snapshot
+        uses: actions/cache/restore@v4
+        with:
+          path: public/data/dramas.json
+          key: drama-snapshot-${{ github.run_id }}
+          restore-keys: drama-snapshot-
+      - name: Refresh public MyDramaList data
+        id: sync
+        continue-on-error: true
+        run: npm run sync
+      - name: Report refresh failure
+        if: steps.sync.outcome == 'failure'
+        run: echo '::warning::MyDramaList refresh failed. Deploying the last complete snapshot; its sync date remains unchanged.'
+      - run: npm test
+      - uses: actions/cache/save@v4
+        if: steps.sync.outcome == 'success'
+        with:
+          path: public/data/dramas.json
+          key: drama-snapshot-${{ github.run_id }}
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
