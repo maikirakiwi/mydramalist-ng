@@ -22,7 +22,7 @@ The first analysis downloads OCR language models to `.cache/tesseract/` (cached 
 Requires Node.js 22 or newer.
 
 ```sh
-npm ci
+npm install
 npm run dev
 ```
 

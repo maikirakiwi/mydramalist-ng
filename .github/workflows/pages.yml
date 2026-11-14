@@ -28,8 +28,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+      - name: Install dependencies and generate lockfile
+        run: npm install --package-lock=true
       - name: Restore last successful snapshot
         uses: actions/cache/restore@v4
         with:
