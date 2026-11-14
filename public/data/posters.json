@@ -41,6 +41,20 @@
       0
     ]
   },
+  "https://i.mydramalist.com/3voLpe_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "5920e77c3daece4660f0c1e6381f425464dda45d947b8f8fb3b51ad5d773b364",
+    "width": 900,
+    "height": 1600,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      7.59,
+      10.59,
+      12.04,
+      2.4
+    ]
+  },
   "https://i.mydramalist.com/4eeqpZ_4f.jpg": {
     "version": "tesseract7-eng-jpn-normalized-v1",
     "sha256": "0ca594b7183ea860c4f970b8e6f9f26db99bc8f47ab3f9fd099d7e7ea1ed2032",
@@ -223,6 +237,20 @@
       8.09
     ]
   },
+  "https://i.mydramalist.com/bve8yY_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "e5b2cf28d4f94f4ee49ca2458616e10a86fa0b925bf648a752a0713eef4b0ff1",
+    "width": 900,
+    "height": 1351,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      9.04,
+      10.85,
+      4.6,
+      4.26
+    ]
+  },
   "https://i.mydramalist.com/d0Y31b_4f.jpg": {
     "version": "tesseract7-eng-jpn-normalized-v1",
     "sha256": "e35dfc5f1f92a7392f8c11bac6c8064e75898218cb37224ae69192459cd1b59e",
@@ -349,6 +377,20 @@
       2.45
     ]
   },
+  "https://i.mydramalist.com/gOy3Ld_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "d5f64d02b1a40cf56e4dbb5314d508262f3d179be93b8070ee5f52e283395300",
+    "width": 853,
+    "height": 1280,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      6.52,
+      0,
+      2.64,
+      0
+    ]
+  },
   "https://i.mydramalist.com/JB0pEl_4f.jpg": {
     "version": "tesseract7-eng-jpn-normalized-v1",
     "sha256": "57e0b3a1f96f560d1d483464f6e3ed40965196a962408131c27c183e3756b2fc",
@@ -389,6 +431,20 @@
       2.4,
       0,
       0
+    ]
+  },
+  "https://i.mydramalist.com/JjBvBy_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "60f4398c84c6b98fca5a990fc7cce002dfecac0f749561590789b7ac29ba67d7",
+    "width": 900,
+    "height": 1168,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      16.86,
+      2.82,
+      10.47,
+      11.12
     ]
   },
   "https://i.mydramalist.com/jk1Rr_4f.jpg": {
@@ -475,6 +531,20 @@
       11.27
     ]
   },
+  "https://i.mydramalist.com/lBvQOx_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "b5536c026dc1e6fd7e1f773dcf0cb52f61e41396a25cb50f732d0f6c896ccf32",
+    "width": 900,
+    "height": 1453,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      8.85,
+      3.68,
+      9.57,
+      4.71
+    ]
+  },
   "https://i.mydramalist.com/LwK3gx_4f.jpg": {
     "version": "tesseract7-eng-jpn-normalized-v1",
     "sha256": "d5b4b77e9d5da769346d35a0e45e8370891c614d004b3a8b565830ef68b1666b",
@@ -515,6 +585,34 @@
       30.55,
       7.14,
       9.42
+    ]
+  },
+  "https://i.mydramalist.com/m0Bg13_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "5c64648ff0c16af5f0e8402ddf907e8ddf28064cb8434f321d7da7317b0bb9de",
+    "width": 900,
+    "height": 1273,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      5.56,
+      3.63,
+      3.97,
+      0.84
+    ]
+  },
+  "https://i.mydramalist.com/mORBy2_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "486ac4ffc64ba90af5ad9eabd8f978e8368cc6cc7c1aa20dbedb47b2a91d13d4",
+    "width": 900,
+    "height": 1273,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      20.72,
+      15.42,
+      8.49,
+      3.62
     ]
   },
   "https://i.mydramalist.com/NdqVpv_4f.jpg": {
@@ -599,6 +697,20 @@
       15.4,
       26.06,
       16.53
+    ]
+  },
+  "https://i.mydramalist.com/ONgm0y_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "fb7c04165b9fd4d8c3fd276e981813b7cdd9f6d9af372d5e985c598d6196f405",
+    "width": 900,
+    "height": 1453,
+    "rotation": 0,
+    "status": "inconclusive",
+    "scores": [
+      1.36,
+      4.64,
+      1.69,
+      2.17
     ]
   },
   "https://i.mydramalist.com/oQYopO_4f.jpg": {
@@ -797,6 +909,20 @@
       4.94
     ]
   },
+  "https://i.mydramalist.com/VB0EYv_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "2c33910c0e7e54b96d72d877231d3df93dd68b2780d7126673fc4430d015d73d",
+    "width": 900,
+    "height": 1272,
+    "rotation": 90,
+    "status": "confident",
+    "scores": [
+      8.24,
+      57.85,
+      7.01,
+      12.37
+    ]
+  },
   "https://i.mydramalist.com/vpn0e_4f.jpg": {
     "version": "tesseract7-eng-jpn-normalized-v1",
     "sha256": "a54d4eb3fd1f3ff92459202390c9d1b3d6cc181add9bb594bb108fea7d37b40a",
@@ -963,6 +1089,20 @@
       3.53,
       6.91,
       6.11
+    ]
+  },
+  "https://i.mydramalist.com/YYqQyo_4f.jpg": {
+    "version": "tesseract7-eng-jpn-normalized-v1",
+    "sha256": "aa37c70637a4a8f4343fe732ab28c2acbc3dd65ed6a11b996df5266d70cf0608",
+    "width": 900,
+    "height": 1273,
+    "rotation": 0,
+    "status": "confident",
+    "scores": [
+      77.89,
+      11.19,
+      20.05,
+      12.63
     ]
   },
   "https://i.mydramalist.com/Z84kjO_4f.jpg": {
