@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { STATUSES, SORTS, filterOptions, selectItems } from './list.mjs';
+import posterAnalysis from '../public/data/posters.json';
 import './styles.css';
 
 function Icon({ name, size = 20 }) {
@@ -21,12 +22,15 @@ function Icon({ name, size = 20 }) {
 }
 
 function DramaCard({ item, layout }) {
+  const source = item.poster?.replace('_4t.', '_4f.');
+  const analyzedRotation = posterAnalysis[source]?.rotation;
+  const rotation = [90, 180, 270].includes(analyzedRotation) ? analyzedRotation : 0;
   const percentage = item.episodes ? Math.min(100, item.watched / item.episodes * 100) : 0;
   const statusClass = `status-${item.status.toLowerCase().replaceAll(' ', '-')}`;
   return (
     <article className={`drama-card ${layout === 'list' ? 'row-card' : ''}`}>
       <a className="poster-link" href={item.url} target="_blank" rel="noreferrer" aria-label={`View ${item.title} on MyDramaList`}>
-        <img className="poster" src={item.poster?.replace('_4t.', '_4f.')} alt={`${item.title} poster`} loading="lazy" onError={event => {
+        <img className={`poster${rotation ? ` poster-rotate-${rotation}` : ''}`} src={source} alt={`${item.title} poster`} loading="lazy" onError={event => {
           if (!event.currentTarget.dataset.fallback) {
             event.currentTarget.dataset.fallback = 'true';
             event.currentTarget.src = item.poster;

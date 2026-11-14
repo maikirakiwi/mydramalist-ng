@@ -18,6 +18,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -38,7 +43,31 @@ jobs:
       - name: Report refresh failure
         if: steps.sync.outcome == 'failure'
         run: echo '::warning::MyDramaList refresh failed. Deploying the last complete snapshot; its sync date remains unchanged.'
+      - name: Restore OCR models
+        uses: actions/cache@v4
+        with:
+          path: .cache/tesseract
+          key: poster-ocr-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Analyze new poster orientations
+        id: posters
+        continue-on-error: true
+        run: npm run analyze:posters
+      - name: Report poster analysis failure
+        if: steps.posters.outcome == 'failure'
+        run: echo '::warning::Some posters could not be analyzed. Saved results are retained; failed images will be retried on the next run.'
       - run: npm test
+      - name: Save poster analysis to the repository
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if ! git diff --quiet -- public/data/posters.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add public/data/posters.json
+            git commit -m 'Update poster orientation analysis [skip ci]'
+            git push origin "HEAD:$DEFAULT_BRANCH"
+          fi
       - uses: actions/cache/save@v4
         if: steps.sync.outcome == 'success'
         with:

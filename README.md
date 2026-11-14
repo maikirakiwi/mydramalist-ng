@@ -4,6 +4,19 @@ A static, mobile-friendly reading view of [notmaimai’s MyDramaList](https://my
 
 The default view is a poster grid, ordered by premiere date, newest first, with a compact list view available from the view toggle. Shared URLs override the default sort. The profile avatar loads from [maikirakiwi’s GitHub profile](https://github.com/maikirakiwi). Filter options are derived from the imported shows; statuses without shows are hidden unless selected in a shared URL.
 
+Posters fill vertical frames with a centered crop in the browser. GitHub Actions analyzes new poster URLs with Japanese/English OCR at 0°, 90°, 180°, and 270°, then saves the results in `public/data/posters.json`. Vite includes that JSON in the production JavaScript, and CSS applies the detected correction before the centered crop. No OCR code or models ship to the browser, and no poster IDs are hard-coded.
+
+The JSON is committed back to the default branch by the Actions bot. Existing URLs with a matching analyzer version are skipped entirely—no poster download or repeated OCR. Both confident and inconclusive results are stored. Failed image requests are retried next run; old successful results are retained. Branch protection must permit the bot’s generated-data commits. A bot commit uses `[skip ci]` and the workflow’s `GITHUB_TOKEN`, avoiding recursive deployments. Branch builds analyze for their own preview but only the default branch writes results back.
+
+OCR chooses a rotation only when readable text has a clear lead over the other orientations; ambiguous artwork stays in its source orientation. Stylized lettering, vertical Japanese text, and sparse text can still make analysis inconclusive or incorrect. Image bytes are not modified. If an image changes at the same URL, force a fresh analysis:
+
+```sh
+npm run analyze:posters
+REFRESH_POSTERS=1 npm run analyze:posters
+```
+
+The first analysis downloads OCR language models to `.cache/tesseract/` (cached by Actions) and processes the full collection. Later builds only process new poster URLs. Commit the regenerated JSON after a manual refresh.
+
 ## Run locally
 
 Requires Node.js 22 or newer.
@@ -25,11 +38,11 @@ npm run preview
 2. In **Settings → Pages → Build and deployment**, select **GitHub Actions** as the source.
 3. The included workflow builds on every branch push and deploys pushes to the repository’s default branch. The same workflow can be started from the Actions tab with **Run workflow**.
 
-No API keys or server are required. Relative build paths support both `owner.github.io/repository/` and custom domains. The local Git repository currently has no remote, so repository setup and the first push must happen before the hosted workflow can run.
+No API keys or server are required. Relative build paths support both `owner.github.io/repository/` and custom domains. The workflow needs repository contents write permission to persist generated poster analysis.
 
 ## Daily refresh
 
-The workflow refreshes the public list daily at **06:17 Asia/Shanghai** (22:17 UTC). GitHub may delay schedules, and schedules run only on the default branch. A successful snapshot is cached across runs; the committed snapshot bootstraps first deployment. No daily bot commits or repository write token are needed. Every deploy also attempts a refresh.
+The workflow refreshes the public list daily at **06:17 Asia/Shanghai** (22:17 UTC). GitHub may delay schedules, and schedules run only on the default branch. A successful list snapshot is cached across runs; the committed snapshot bootstraps first deployment. Poster analysis is committed only when its results change. Every deploy also attempts a list refresh.
 
 ```sh
 npm run sync
