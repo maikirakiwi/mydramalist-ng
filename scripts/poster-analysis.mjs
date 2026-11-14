@@ -1,4 +1,4 @@
-export const ANALYSIS_VERSION = 'tesseract7-eng-jpn-normalized-v1';
+export const ANALYSIS_VERSION = 'eng-jpn-faces-v2';
 export const ROTATIONS = [0, 90, 180, 270];
 
 export function textScore(tsv = '') {
@@ -12,11 +12,21 @@ export function textScore(tsv = '') {
   }, 0);
 }
 
-export function chooseOrientation(scores) {
-  if (scores.length !== 4 || scores.some(value => !Number.isFinite(value) || value < 0)) throw new Error('Expected four nonnegative OCR scores.');
+export function chooseOrientation(scores, faceScores = [0, 0, 0, 0]) {
+  for (const values of [scores, faceScores]) {
+    if (values.length !== 4 || values.some(value => !Number.isFinite(value) || value < 0)) throw new Error('Expected four nonnegative orientation scores.');
+  }
   const ranked = scores.map((score, index) => ({ rotation: ROTATIONS[index], score })).sort((a, b) => b.score - a.score);
   const [best, second] = ranked;
-  // Poster art can resemble letters: leave uncertain images in their original orientation.
-  const confident = best.score >= 25 && best.score >= second.score * 2 && best.score - second.score >= 12;
-  return { rotation: confident ? best.rotation : 0, status: confident ? 'confident' : 'inconclusive', scores: scores.map(score => Math.round(score * 100) / 100) };
+  const faces = faceScores.map((score, index) => ({ rotation: ROTATIONS[index], score })).sort((a, b) => b.score - a.score);
+  const strongText = best.score >= 25 && best.score >= second.score * 2 && best.score - second.score >= 12;
+  const clearFaces = faces[0].score >= 5.5 && faces[0].score >= faces[1].score * 1.5 && faces[0].score - faces[1].score >= 2;
+  const readableText = best.score >= 8 && best.score >= second.score * 1.4 && best.score - second.score >= 3;
+  // shortcut: stylized text can fool OCR; expand the labeled calibration set if false rotations recur.
+  const method = strongText ? 'ocr' : clearFaces ? 'faces' : readableText ? 'ocr' : 'inconclusive';
+  return {
+    rotation: method === 'inconclusive' ? 0 : method === 'faces' ? faces[0].rotation : best.rotation,
+    status: method === 'inconclusive' ? 'inconclusive' : 'confident', method,
+    scores: scores.map(score => Math.round(score * 100) / 100), faceScores,
+  };
 }

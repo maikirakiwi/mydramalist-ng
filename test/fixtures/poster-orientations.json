@@ -1,0 +1,162 @@
+[
+  {
+    "source": "https://i.mydramalist.com/bve8yY_4f.jpg",
+    "scores": [
+      9.04,
+      10.85,
+      4.6,
+      4.26
+    ],
+    "faceScores": [
+      0,
+      16.27,
+      3.13,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/ONgm0y_4f.jpg",
+    "scores": [
+      1.36,
+      4.64,
+      1.69,
+      2.17
+    ],
+    "faceScores": [
+      5.52,
+      18.33,
+      4.96,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/nKxDkW_4f.jpg",
+    "scores": [
+      4.96,
+      3.54,
+      7.55,
+      4.28
+    ],
+    "faceScores": [
+      0,
+      5.67,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/lBvQOx_4f.jpg",
+    "scores": [
+      8.85,
+      3.68,
+      9.57,
+      4.71
+    ],
+    "faceScores": [
+      0,
+      17.33,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/zB3Y17_4f.jpg",
+    "scores": [
+      4.41,
+      11.72,
+      7.16,
+      4.53
+    ],
+    "faceScores": [
+      0,
+      44.35,
+      3.43,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/LwrryB_4f.jpg",
+    "scores": [
+      19.9,
+      30.55,
+      7.14,
+      9.42
+    ],
+    "faceScores": [
+      0,
+      7.37,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/qP5R0_4f.jpg",
+    "scores": [
+      41.87,
+      3.42,
+      2.94,
+      3.73
+    ],
+    "faceScores": [
+      43,
+      0,
+      0,
+      0
+    ],
+    "expectedRotation": 0
+  },
+  {
+    "source": "https://i.mydramalist.com/KpPxWv_4f.jpg",
+    "scores": [
+      1.39,
+      149.08,
+      2.97,
+      3.94
+    ],
+    "faceScores": [
+      4.99,
+      0,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/ABL6nE_4f.jpg",
+    "scores": [
+      4.88,
+      7.77,
+      17.66,
+      5.7
+    ],
+    "faceScores": [
+      0,
+      5.59,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  },
+  {
+    "source": "https://i.mydramalist.com/nKxDkW_4c.jpg",
+    "scores": [
+      1.45,
+      2.39,
+      0,
+      1.5
+    ],
+    "faceScores": [
+      0,
+      5.82,
+      0,
+      0
+    ],
+    "expectedRotation": 90
+  }
+]

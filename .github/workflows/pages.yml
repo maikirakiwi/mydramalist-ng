@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: '17 22 * * *' # 06:17 Asia/Shanghai; GitHub schedules may be delayed.
   workflow_dispatch:
+    inputs:
+      refresh_posters:
+        description: Reanalyze all posters, including saved results
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -30,6 +35,11 @@ jobs:
           node-version: 22
       - name: Install dependencies and generate lockfile
         run: npm install --package-lock=true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install poster face detector
+        run: python3 -m pip install 'opencv-python-headless<5'
       - name: Restore last successful snapshot
         uses: actions/cache/restore@v4
         with:
@@ -51,6 +61,8 @@ jobs:
       - name: Analyze new poster orientations
         id: posters
         continue-on-error: true
+        env:
+          REFRESH_POSTERS: ${{ inputs.refresh_posters && '1' || '0' }}
         run: npm run analyze:posters
       - name: Report poster analysis failure
         if: steps.posters.outcome == 'failure'

@@ -18,7 +18,7 @@
   "devDependencies": {
     "cheerio": "^1.1.2",
     "sharp": "^0.35.5",
-    "tesseract.js": "^7.0.0",
+    "tesseract.js": "latest",
     "vite": "^7.1.0"
   }
 }

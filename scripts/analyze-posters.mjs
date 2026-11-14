@@ -1,5 +1,7 @@
 import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { createWorker } from 'tesseract.js';
 import { ANALYSIS_VERSION, ROTATIONS, chooseOrientation, textScore } from './poster-analysis.mjs';
@@ -17,6 +19,7 @@ if (!pending.length) {
   await mkdir(cachePath, { recursive: true });
   const worker = await createWorker('eng+jpn', 1, { cachePath: cachePath.pathname });
   await worker.setParameters({ tessedit_pageseg_mode: '11' });
+  console.log('OCR languages: eng+jpn (Japanese includes Kanji, Hiragana and Katakana).');
   let failed = 0;
   try {
     for (const [index, source] of pending.entries()) {
@@ -35,13 +38,18 @@ if (!pending.length) {
           const { data } = await worker.recognize(normalized, {}, { text: false, tsv: true });
           scores.push(textScore(data.tsv));
         }
-        const result = chooseOrientation(scores);
+        const uprightBytes = await image.clone().autoOrient().png().toBuffer();
+        const faces = spawnSync('python3', [fileURLToPath(new URL('./poster-faces.py', import.meta.url))], {
+          input: uprightBytes, timeout: 30000, maxBuffer: 20 * 1024 * 1024,
+        });
+        if (faces.error || faces.status !== 0) throw new Error(`Face analysis failed: ${faces.error?.message || faces.stderr.toString().trim()}`);
+        const result = chooseOrientation(scores, JSON.parse(faces.stdout.toString()));
         manifest[source] = { version: ANALYSIS_VERSION, sha256: createHash('sha256').update(bytes).digest('hex'), width, height, ...result };
         // Save each completed result atomically so an interrupted run retains its work.
         const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)));
         await writeFile(`${manifestPath.pathname}.tmp`, `${JSON.stringify(sorted, null, 2)}\n`);
         await rename(`${manifestPath.pathname}.tmp`, manifestPath);
-        console.log(`[${index + 1}/${pending.length}] ${source}: ${result.rotation}° (${result.status}; scores ${result.scores.join(', ')})`);
+        console.log(`[${index + 1}/${pending.length}] ${source}: ${result.rotation}° (${result.method}; OCR ${result.scores.join(', ')}; faces ${result.faceScores.join(', ')})`);
       } catch (error) {
         failed++;
         console.warn(`::warning::Poster analysis failed for ${source}: ${error.message}. Previous result retained; will retry next run.`);
